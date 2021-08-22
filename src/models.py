@@ -18,7 +18,7 @@ def computeLoglikelihood_binomial(D,P,alpha=14.3):
     '''
     Takes in data dictionary D ({'10':1018, '11':2227.16, '00':100.667}) and outputs loglikelihood (as well aslikelihood) under binomial model of diploid ancestry states. Uses alpha as a hyperparameter to account for admixture LD
     '''
-#{{{    
+    
 
     for key in ('10','11','00'): #Set key value to 0 if key not in dictionary
         if key not in D.keys():
@@ -34,13 +34,13 @@ def computeLoglikelihood_binomial(D,P,alpha=14.3):
 
     loglik = (1/alpha)*(hom1 + hom2  + het)  #Divide by 1/alpha to deal with non-independence - alpha depends on population
 
-#}}}
+
     return(loglik)
 
 
 "~~~~~~~~~~~~~~~~~~~~~~~"
 def _logsum(logx, logy):
-#{{{ 
+ 
     '''
     Evaluates log(x+y)
     '''
@@ -54,7 +54,7 @@ def _logsum(logx, logy):
     else:
         return logy + np.log(1 + np.exp(logx-logy))
 
-#}}}
+
 
 
 def computeParams_markovWF(pars,e):
@@ -72,7 +72,7 @@ def precompute_transitionMatrix(params,mode ='regular'):
     Takes in dict of parameter values ( e.g : {'lambdaA':[0.5,0,5], 'lambdaB':[0.3,0.4]})
     Returns precomputed parts of transition probabilites matrix N + E ( broken into non-exponential parts and exponential parts)
     '''
-#{{{ 
+ 
     N = np.array([[0, np.log(params['lambdaA'][1]), np.log(params['lambdaB'][1]), -np.inf],
                  [np.log(params['lambdaA'][0]), 0,-np.inf ,np.log(params['lambdaB'][1])],
                  [np.log(params['lambdaB'][0]), -np.inf,0 ,np.log(params['lambdaA'][1])],
@@ -93,7 +93,7 @@ def precompute_transitionMatrix(params,mode ='regular'):
                  [-np.inf, -np.log(params['lambdaA'][1]), -np.log(params['lambdaB'][1]),-(np.log(params['lambdaA'][1]) + np.log(params['lambdaB'][1]))]
                 ])
         return(N,N_cns,E)
-#}}}
+
     return(N,E)
 
     
@@ -102,7 +102,7 @@ def get_orderedSates(d):
     Takes in a dict with a single key value pair. Uses hardcoded dictionaries to translate unordered states to ordered states.
     Returns ordered states corresponding to unordered state represented in d
     """
-#{{{ 
+ 
 
     unordOrdDict_labs = {'10':[1,2], '11':[3,3], '00':[0,0]}
     unordOrdDict_states = {'00':[[0,0],[0,0]], '10':[[1,0],[0,1]] , '11':[[1,1],[1,1]]}
@@ -111,7 +111,7 @@ def get_orderedSates(d):
     ord_labels = unordOrdDict_labs[unord_state]
     ord_states = unordOrdDict_states[unord_state]
 
-#}}}
+
     return(ord_labels, ord_states)
 
 
@@ -120,7 +120,7 @@ def err_func(d,k,bg=None):
     '''
     d = tract dict with 'type' and 'length' , k = hyperparameter for exponential, bg = {'n': median number of tracts across chromosomes, 'type':background tract type}
     '''
-#{{{ 
+ 
 
     x = d['length']/100
     
@@ -136,7 +136,7 @@ def err_func(d,k,bg=None):
         else:
             loge = -k*x
 
-#}}}
+
     return(loge)
 
 
@@ -145,7 +145,7 @@ def err_func_v0(d,k):
     return(np.exp(-k*x))
 
 def get_emissions(d,d_prev,k,loge):
- #{{{   
+    
     nonErrorLogProb=np.log(1-np.exp(loge))
     
     if k == 1 or k == 2:
@@ -164,7 +164,7 @@ def get_emissions(d,d_prev,k,loge):
 
     else:
         sys.exit('invalid key')
-#}}}
+
     return()
 
 def computeLoglikelihood_cnsPM(D, pars, phi=69.314,err=False):
@@ -172,7 +172,7 @@ def computeLoglikelihood_cnsPM(D, pars, phi=69.314,err=False):
     '''
     Takes in dict of parameter values ( e.g : [0.3,0.5,6,5]}) and the data D for ALL chromsomes ({'type':'10', 'length':1018} ... ). Additionally takes in an error function and parameters phi for the error function ( see err_func). Also takes in bg which is a dictionary containing median number of tracts and background tract summary statistics from individual for use with error function. Computes loglikelihood of data under our pooled markov model with censoring ( cns). 
     '''
-#{{{ 
+ 
     assert len(D) == 22
     
     #Compute background summary statistics across all chromosomes for use with error function
@@ -193,7 +193,7 @@ def computeLoglikelihood_cnsPM(D, pars, phi=69.314,err=False):
         for d in D:
             loglik+=computeLoglikelihood_cnsPM_single(d,pars)
 
-#}}}
+
     return(loglik)
 
 
@@ -202,7 +202,7 @@ def computeLoglikelihood_cnsPM_single(D, pars):
     '''
     Takes in dict of parameter values ( e.g : [0.3,0.5,6,5]}) and the data D for a single chromosome ({'type':'10', 'length':1018} ... ). Additionally takes in an error function and parameters phi for the error function ( see err_func). Computes loglikelihood of data under our pooled markov model with censoring ( cns). 
     '''
-#{{{ 
+ 
 
     #Get params (lambdas)
     params = computeParams_markovWF(pars,1e-6)
@@ -260,7 +260,7 @@ def computeLoglikelihood_cnsPM_single(D, pars):
             P[k,0] = -( params['lambdaA'][phase[0]]*(D[0]['length']/100) + params['lambdaB'][phase[1]]*(D[0]['length']/100) ) 
    
     
-#}}}
+
     return(logsumexp(P[:,-1]))
 
 
@@ -270,7 +270,7 @@ def computeLoglikelihood_cnsPM_single_err(D, pars, phi,bg):
     '''
     Takes in dict of parameter values ( e.g : [0.3,0.5,6,5]}) and the data D for a single chromosome ({'type':'10', 'length':1018} ... ). Additionally takes in an error function and parameters phi for the error function ( see err_func). Computes loglikelihood of data under our pooled markov model with censoring ( cns). 
     '''
-#{{{ 
+ 
 
     #Get params (lambdas)
     params = computeParams_markovWF(pars,1e-6)
@@ -341,7 +341,7 @@ def computeLoglikelihood_cnsPM_single_err(D, pars, phi,bg):
             P[k,0] = -( params['lambdaA'][phase[0]]*(D[0]['length']/100) + params['lambdaB'][phase[1]]*(D[0]['length']/100) ) 
    
     
-#}}}
+
     return(logsumexp(P[:,-1]))
 
 
@@ -349,7 +349,7 @@ def computeLoglikelihood_cnsPM_single_err(D, pars, phi,bg):
 #    '''
 #    Takes in dict of parameter values ( e.g : [0.3,0.5,6,5]}) and the data D for a single chromosome ({'type':'10', 'length':1018} ... ). Computes loglikelihood of data under our pooled markov model with censoring ( cns)
 #    '''
-##{{{ 
+# 
 #
 #    #Get params (lambdas)
 #    params = computeParams_markovWF(pars,1e-6)
@@ -409,7 +409,7 @@ def computeLoglikelihood_cnsPM_single_err(D, pars, phi,bg):
 #    
 #
 #    #print('Final P:{}'.format(P))
-##}}}
+#
 #    return(logsumexp(P[:,-1]))
 
 

@@ -64,7 +64,7 @@ def filter_tracts(llt):
     return(llt_proc)
 
 def lik_func(params,D):
- #{{{    
+     
     D_dicts = md.tups2dicts(D)
     D_flat = [{x['type']:x['length']} for y in D_dicts for x in y]
     counter = collections.Counter() 
@@ -76,11 +76,11 @@ def lik_func(params,D):
     print("Running full model")
     l = md.computeLoglikelihood_binomial(D_flat,params[:2]) + md.computeLoglikelihood_cnsPM(D_dicts,params)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
-#}}}
+
     return(l)
 
 def lik_func_bin(params,D):
-#{{{ 
+ 
     D_dicts = md.tups2dicts(D)
     D_flat = [{x['type']:x['length']} for y in D_dicts for x in y]
     counter = collections.Counter() 
@@ -92,11 +92,11 @@ def lik_func_bin(params,D):
     print("Running binomial model only")
     l = md.computeLoglikelihood_binomial(D_flat,params[:2])
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
- #}}}
+ 
     return(l)
 
 def lik_func_mrkv(params,D):
-    #{{{ 
+     
     D_dicts = md.tups2dicts(D)
     D_flat = [{x['type']:x['length']} for y in D_dicts for x in y]
     counter = collections.Counter() 
@@ -108,12 +108,12 @@ def lik_func_mrkv(params,D):
     print("running mrkv model only")
     l = md.computeLoglikelihood_cnsPM(D_dicts,params)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
-#}}}
+
     return(l)
 
 
 def lik_func_err(params,D):
- #{{{    
+     
     D_dicts = md.tups2dicts(D)
     D_flat = [{x['type']:x['length']} for y in D_dicts for x in y]
     counter = collections.Counter() 
@@ -125,11 +125,11 @@ def lik_func_err(params,D):
     print("Running full model - with error ")
     l = md.computeLoglikelihood_binomial(D_flat,params[:2]) + md.computeLoglikelihood_cnsPM(D_dicts,params,phi=69.314,err=True)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
-#}}}
+
     return(l)
 
 def lik_func_bin_err(params,D):
-#{{{ 
+ 
     D_dicts = md.tups2dicts(D)
     D_flat = [{x['type']:x['length']} for y in D_dicts for x in y]
     counter = collections.Counter() 
@@ -141,11 +141,11 @@ def lik_func_bin_err(params,D):
     print("Running binomial model only")
     l = md.computeLoglikelihood_binomial(D_flat,params[:2])
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
- #}}}
+ 
     return(l)
 
 def lik_func_mrkv_err(params,D):
-    #{{{ 
+     
     D_dicts = md.tups2dicts(D)
     D_flat = [{x['type']:x['length']} for y in D_dicts for x in y]
     counter = collections.Counter() 
@@ -157,7 +157,7 @@ def lik_func_mrkv_err(params,D):
     print("running mrkv model only")
     l = md.computeLoglikelihood_cnsPM(D_dicts,params,phi=69.314,err=True)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
-#}}}
+
     return(l)
 
 
@@ -165,7 +165,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
     '''
     Function that infers map and CIs using the scipy.optimize module 
     '''
- #{{{    
+     
 
     
     if typ=='bin':
@@ -228,12 +228,12 @@ def estimate_MAP(d_tracts,typ='full',err=False):
     else:
         sys.exit('please specify valide typ - bin,mrkv or full')
 
-#}}}
+
     return(np.round(res.x,2))
 
 
 if __name__ == "__main__":
-#{{{ 
+ 
     import ast 
     import collections 
     import numpy as np 
@@ -320,5 +320,5 @@ if __name__ == "__main__":
     else:
         sys.exit("Invalid mode option - please provide either 'pymc' or 'scipy-optimize'")
 
-#}}}
+
 
