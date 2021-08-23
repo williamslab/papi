@@ -168,7 +168,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
      
 
     
-    if typ=='bin':
+    if typ=='bino':
         bnds = ((0.001, 0.999),(0.001,0.999),(0,25), (0, 25))
         if err:
             res = scipy.optimize.minimize(
@@ -271,7 +271,7 @@ if __name__ == "__main__":
 
         # create our Op
         if args.err==True:
-            if args.typ=='bin':
+            if args.typ=='bino':
                 logl = LogLike(lik_func_bin_err, d_tracts)
             elif args.typ=='mrkv':
                 logl = LogLike(lik_func_mrkv_err, d_tracts)
