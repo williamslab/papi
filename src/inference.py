@@ -73,7 +73,6 @@ def lik_func(params,D):
         counter.update(D_i)     
     D_flat = dict(counter)
 
-    print("Running full model")
     l = md.computeLoglikelihood_binomial(D_flat,params[:2]) + md.computeLoglikelihood_cnsPM(D_dicts,params)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
 
@@ -89,7 +88,6 @@ def lik_func_bin(params,D):
         counter.update(D_i)     
     D_flat = dict(counter)
     
-    print("Running binomial model only")
     l = md.computeLoglikelihood_binomial(D_flat,params[:2])
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
  
@@ -105,7 +103,6 @@ def lik_func_mrkv(params,D):
         counter.update(D_i)     
     D_flat = dict(counter)
 
-    print("running mrkv model only")
     l = md.computeLoglikelihood_cnsPM(D_dicts,params)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
 
@@ -122,7 +119,6 @@ def lik_func_err(params,D):
         counter.update(D_i)     
     D_flat = dict(counter)
 
-    print("Running full model - with error ")
     l = md.computeLoglikelihood_binomial(D_flat,params[:2]) + md.computeLoglikelihood_cnsPM(D_dicts,params,phi=69.314,err=True)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
 
@@ -138,7 +134,6 @@ def lik_func_bin_err(params,D):
         counter.update(D_i)     
     D_flat = dict(counter)
     
-    print("Running binomial model only")
     l = md.computeLoglikelihood_binomial(D_flat,params[:2])
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
  
@@ -154,7 +149,6 @@ def lik_func_mrkv_err(params,D):
         counter.update(D_i)     
     D_flat = dict(counter)
 
-    print("running mrkv model only")
     l = md.computeLoglikelihood_cnsPM(D_dicts,params,phi=69.314,err=True)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
 
