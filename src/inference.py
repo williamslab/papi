@@ -162,12 +162,12 @@ def estimate_MAP(d_tracts,typ='full',err=False):
      
 
     
-    if typ=='bino':
+    if typ=='bin':
         bnds = ((0.001, 0.999),(0.001,0.999),(0,25), (0, 25))
         if err:
             res = scipy.optimize.minimize(
                 fun=lambda params, D: -lik_func_bin_err(params,d_tracts),
-                x0=np.array([0.7,0.8,4,7]),
+                x0=np.array([0.2,0.8,2,8]),
                 args=(d_tracts,),
                 method='L-BFGS-B',
                 bounds=bnds
@@ -175,7 +175,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
         else:
             res = scipy.optimize.minimize(
                 fun=lambda params, D: -lik_func_bin(params,d_tracts,err),
-                x0=np.array([0.7,0.8,4,7]),
+                x0=np.array([0.2,0.8,2,8]),
                 args=(d_tracts,),
                 method='L-BFGS-B',
                 bounds=bnds
@@ -186,7 +186,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
         if err:
             res = scipy.optimize.minimize(
                 fun=lambda params, D: -lik_func_mrkv_err(params,d_tracts),
-                x0=np.array([0.7,0.8,4,7]),
+                x0=np.array([0.2,0.8,2,8]),
                 args=(d_tracts,),
                 method='L-BFGS-B',
                 bounds=bnds
@@ -194,7 +194,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
         else:
             res = scipy.optimize.minimize(
                 fun=lambda params, D: -lik_func_mrkv_err(params,d_tracts),
-                x0=np.array([0.7,0.8,4,7]),
+                x0=np.array([0.2,0.8,2,8]),
                 args=(d_tracts,),
                 method='L-BFGS-B',
                 bounds=bnds
@@ -206,7 +206,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
         if err:
             res = scipy.optimize.minimize(
                 fun=lambda params, D: -lik_func_err(params,d_tracts),
-                x0=np.array([0.7,0.8,4,7]),
+                x0=np.array([0.2,0.8,2,8]),
                 args=(d_tracts,),
                 method='L-BFGS-B',
                 bounds=bnds
@@ -214,7 +214,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
         else:
             res = scipy.optimize.minimize(
                 fun=lambda params, D: -lik_func(params,d_tracts),
-                x0=np.array([0.7,0.8,4,7]),
+                x0=np.array([0.2,0.8,2,8]),
                 args=(d_tracts,),
                 method='L-BFGS-B',
                 bounds=bnds
@@ -265,7 +265,7 @@ if __name__ == "__main__":
 
         # create our Op
         if args.err==True:
-            if args.typ=='bino':
+            if args.typ=='bin':
                 logl = LogLike(lik_func_bin_err, d_tracts)
             elif args.typ=='mrkv':
                 logl = LogLike(lik_func_mrkv_err, d_tracts)
