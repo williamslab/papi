@@ -1,0 +1,15 @@
+name: PAPI
+channels:
+  - defaults
+dependencies:
+  - pip=20.1.1
+  - python=3.8.0
+  - pip:
+    - numpy==1.13.3
+    - scipy=0.19.1
+    - json==2.0.9
+    - pandas==0.20.3
+    - theano==1.0.4
+    - arviz==0.6.1
+    - pymc3==3.8
+prefix: env-papi
