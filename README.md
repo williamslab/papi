@@ -4,9 +4,9 @@ PAPI is a tool for inferring the admixture proportions and admixture times for t
 
 ## Installation
 
-### We recommend creating a basic python3 conda environment for running PAPI.
+We recommend using anaconda to create a virtual environment using the included papi.yaml file
 ```
-conda create -n python3 python=3
+conda env create -f papi.yaml
 ```
 
 ## Usage
