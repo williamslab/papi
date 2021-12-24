@@ -27,11 +27,10 @@ optional arguments:
   --outfile OUTFILE, -o OUTFILE
                         required default output file
   --mode [MODE], -m [MODE]
-                        inference mode-`pymc' or `scipy-optimize'
+                        inference mode-'pymc' or 'scipy-optimize'
   --typ [TYP], -typ [TYP]
-                        model to use-`bino',`hmm', or `full'
+                        model to use-'bino','hmm', or 'full'
   --err, -err
-python papi.py -i inputfile -ind indfile-t -o -m -typ -err
 ```
 
 ## Input
