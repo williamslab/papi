@@ -237,12 +237,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # add long and short argument
-    parser.add_argument("--inputfile", "-i",required=True, help="set input file",type=str)
-    parser.add_argument("--ind", "-ind", type=int,required=True, help="set individual on which to run hmm on")
-    parser.add_argument("--tracefile", "-t", nargs='?', const=None)
-    parser.add_argument("--outfile", "-o",type=str, required=True)
-    parser.add_argument("--mode", "-m", nargs='?', type=str, const='pymc')
-    parser.add_argument("--typ", "-typ", nargs='?', type=str, const='full')
+    parser.add_argument("--inputfile", "-i",required=True, help="input tracts file",type=str)
+    parser.add_argument("--ind", "-ind", type=int,required=True, help="individual on which to run papi")
+    parser.add_argument("--tracefile", "-t", nargs='?', const=None, help="optional argument, used to store trace output when run in mcmc mode. If not provided, MCMC solver will find MAP estimate")
+    parser.add_argument("--outfile", "-o",type=str, required=True, help="required default output file")
+    parser.add_argument("--mode", "-m", nargs='?', type=str, const='pymc', help="inference mode-`pymc' or `scipy-optimize'")
+    parser.add_argument("--typ", "-typ", nargs='?', type=str, const='full',help="model to use-`bino',`hmm', or `full'")
     parser.add_argument("--err", "-err", default=False, action='store_true')
     # read arguments from the command line
     args = parser.parse_args()
