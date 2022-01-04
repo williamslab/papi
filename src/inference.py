@@ -223,7 +223,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
         sys.exit('please specify valide typ - bin,mrkv or full')
 
 
-    return(np.round(res.x,2))
+    return(np.round(res.x-1,2)) #applied the -1 correction
 
 
 if __name__ == "__main__":
@@ -303,7 +303,11 @@ if __name__ == "__main__":
 
             if args.tracefile:
             #full mcmc
-                trace = pm.sample(1500)
+                trace = pm.sample(100)
+                print(trace['t1'],trace['t2'])
+                trace['t1']=trace['t1']-1
+                trace['t2']=trace['t2']-1
+                print(trace['t1'],trace['t2'])
                 pm.save_trace(trace, args.tracefile+'.trace',overwrite=True) 
                 df = az.summary(trace,credible_interval=0.9)
                 df.to_csv(args.outfile,sep='\t')
