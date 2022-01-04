@@ -34,6 +34,7 @@ optional arguments:
 ```
 
 ## Input
+An example input tracts file is provided in 
 
 ## Options
 
