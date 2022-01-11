@@ -6,7 +6,7 @@ PAPI is a tool for inferring the admixture proportions and admixture times for t
 
 We recommend using anaconda to create a virtual environment using the included papi.yaml file
 ```
-conda env create -f papi.yaml -n PAPI 
+conda env create -f papi.yml -n PAPI 
 ```
 
 ## Usage
@@ -45,7 +45,6 @@ An example input tracts file is provided in ```examples/tracts.txt``` that has t
 ```
 Each line represents the tracts of an individual as a nested list of lists; each nested list corresponds to a chromosome. The first element of each tuple e.g ```('10', 0.004568105)``` represents a single tract that is, in this case, heterozygous for the two ancestry states ```1``` and ```0```, while the second element represents the length of the tract in centiMorgans.
 
-## Options
 
 ## Output
 
