@@ -53,7 +53,7 @@ Using the included tracts file, the simplest way of running PAPI is as follows:
 ```
 src/inference.py -i examples/tracts.txt -ind 1 -o test -m scipy-optimize -typ full
 ```
-which will give results for the first line of the tracts file. The parameters under which these tracts were simulated can be found in the corresponding ```headers.txt``` file.
+which will output GD estimates for the first line of the tracts file in `test.scipy.map` The parameters under which these tracts were simulated can be found in the corresponding ```headers.txt``` file.
 
 
 ## Output
