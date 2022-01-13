@@ -223,7 +223,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
         sys.exit('please specify valide typ - bin,mrkv or full')
 
 
-    return(np.round(res.x-1,2)) #applied the -1 correction
+    return(np.round(res.x-np.array([0,0,1,1]),2)) #applied the -1 correction
 
 
 if __name__ == "__main__":
@@ -247,13 +247,13 @@ if __name__ == "__main__":
     # read arguments from the command line
     args = parser.parse_args()
 
-    #Read in data and header 
-    data_all = pd.read_table(args.inputfile)
-    data_ind = data_all.iloc[args.ind-1] 
-    d_tracts = filter_tracts(ast.literal_eval(data_ind.tracts))
+    #Read in data
+    with open(args.inputfile) as f:
+        data_all=f.readlines()
     
-    print(args.err)
-
+    data_ind = data_all[args.ind-1] 
+    d_tracts = filter_tracts(ast.literal_eval(data_ind))
+    
     if args.mode=='scipy-optimize':
         print("Running inference in scipy-optimize mode")
         MAPestimate_scipy = estimate_MAP(d_tracts,typ=args.typ,err=args.err)

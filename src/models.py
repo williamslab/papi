@@ -183,13 +183,10 @@ def computeLoglikelihood_cnsPM(D, pars, phi=69.314,err=False):
     #Compute loglik across all chromosomes
     loglik=0
 
-    print(err)
     if err:
-        print("Running PAPI in error model mode")
         for d in D:
             loglik+=computeLoglikelihood_cnsPM_single_err(d,pars,phi,bg)
     else:
-        print("Running PAPI in default (no error model) mode")
         for d in D:
             loglik+=computeLoglikelihood_cnsPM_single(d,pars)
 
