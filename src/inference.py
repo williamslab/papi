@@ -304,10 +304,8 @@ if __name__ == "__main__":
             if args.tracefile:
             #full mcmc
                 trace = pm.sample(100)
-                print(trace['t1'],trace['t2'])
                 trace['t1']=trace['t1']-1
                 trace['t2']=trace['t2']-1
-                print(trace['t1'],trace['t2'])
                 pm.save_trace(trace, args.tracefile+'.trace',overwrite=True) 
                 df = az.summary(trace,credible_interval=0.9)
                 df.to_csv(args.outfile,sep='\t')
