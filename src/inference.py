@@ -63,7 +63,7 @@ def filter_tracts(llt):
     
     return(llt_proc)
 
-def lik_func(params,D):
+def lik_func(params,D,tau):
      
     D_dicts = md.tups2dicts(D)
     D_flat = [{x['type']:x['length']} for y in D_dicts for x in y]
@@ -73,7 +73,8 @@ def lik_func(params,D):
         counter.update(D_i)     
     D_flat = dict(counter)
 
-    l = md.computeLoglikelihood_binomial(D_flat,params[:2]) + md.computeLoglikelihood_cnsPM(D_dicts,params)
+    alpha=100/tau
+    l = md.computeLoglikelihood_binomial(D_flat,params[:2],alpha) + md.computeLoglikelihood_cnsPM(D_dicts,params)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
 
     return(l)
@@ -109,7 +110,7 @@ def lik_func_mrkv(params,D):
     return(l)
 
 
-def lik_func_err(params,D):
+def lik_func_err(params,D,tau):
      
     D_dicts = md.tups2dicts(D)
     D_flat = [{x['type']:x['length']} for y in D_dicts for x in y]
@@ -119,6 +120,7 @@ def lik_func_err(params,D):
         counter.update(D_i)     
     D_flat = dict(counter)
 
+    alpha=100/tau
     l = md.computeLoglikelihood_binomial(D_flat,params[:2]) + md.computeLoglikelihood_cnsPM(D_dicts,params,phi=69.314,err=True)
     #l = md.computeLoglikelihood_cnsPM(D_dicts,params)
 
@@ -205,7 +207,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
         bnds = ((0.001, 0.999),(0.001,0.999),(0,25), (0, 25))
         if err:
             res = scipy.optimize.minimize(
-                fun=lambda params, D: -lik_func_err(params,d_tracts),
+                fun=lambda params, D: -lik_func_err(params,d_tracts,tau),
                 x0=np.array([0.2,0.8,2,8]),
                 args=(d_tracts,),
                 method='L-BFGS-B',
@@ -213,7 +215,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
             )
         else:
             res = scipy.optimize.minimize(
-                fun=lambda params, D: -lik_func(params,d_tracts),
+                fun=lambda params, D: -lik_func(params,d_tracts,tau),
                 x0=np.array([0.2,0.8,2,8]),
                 args=(d_tracts,),
                 method='L-BFGS-B',
@@ -243,6 +245,7 @@ if __name__ == "__main__":
     parser.add_argument("--outfile", "-o",type=str, required=True, help="required default output file")
     parser.add_argument("--mode", "-m", nargs='?', type=str, const='pymc', help="inference mode-`pymc' or `scipy-optimize'")
     parser.add_argument("--typ", "-typ", nargs='?', type=str, const='full',help="model to use-`bino',`hmm', or `full'")
+    parser.add_argument("--tau", "-tau", type=int, help="optional hyperparameter tau - will be set to default value of 7 if not specified")
     parser.add_argument("--err", "-err", default=False, action='store_true')
     # read arguments from the command line
     args = parser.parse_args()
@@ -256,7 +259,7 @@ if __name__ == "__main__":
     
     if args.mode=='scipy-optimize':
         print("Running inference in scipy-optimize mode")
-        MAPestimate_scipy = estimate_MAP(d_tracts,typ=args.typ,err=args.err)
+        MAPestimate_scipy = estimate_MAP(d_tracts,typ=args.typ,err=args.err,tau=args.tau)
         np.savetxt(args.outfile + '.scipy.map' , MAPestimate_scipy, newline=" ")
 
     elif args.mode=='pymc' or args.mode==None:
