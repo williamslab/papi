@@ -157,7 +157,7 @@ def lik_func_mrkv_err(params,D):
     return(l)
 
 
-def estimate_MAP(d_tracts,typ='full',err=False):
+def estimate_MAP(d_tracts,typ='full',err=False,tau=7):
     '''
     Function that infers map and CIs using the scipy.optimize module 
     '''
@@ -176,7 +176,7 @@ def estimate_MAP(d_tracts,typ='full',err=False):
             )
         else:
             res = scipy.optimize.minimize(
-                fun=lambda params, D: -lik_func_bin(params,d_tracts,err),
+                fun=lambda params, D: -lik_func_bin(params,d_tracts),
                 x0=np.array([0.2,0.8,2,8]),
                 args=(d_tracts,),
                 method='L-BFGS-B',
