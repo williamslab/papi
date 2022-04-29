@@ -53,11 +53,15 @@ Using the included tracts file, the simplest way of running PAPI is as follows:
 ```
 python src/inference.py -i examples/tracts.txt -ind 1 -o test -m scipy-optimize -typ full
 ```
-which will output GD estimates for the first line of the tracts file in `test.scipy.map` The parameters under which these tracts were simulated can be found in the corresponding ```headers.txt``` file.
+which will output GD estimates for the first line of the tracts file in `test.scipy.map` corresponding the the first individual. The parameters under which these tracts were simulated can be found in the corresponding ```headers.txt``` file. Note that the hyperparameter tau can be optionally specifed with ```-tau```  - it is set by default to 7 if unspecified.
 
 
 ## Output
-
+The output is in the form of a text file with a single line that looks like this
+```
+5.899999999999999689e-01 4.199999999999999845e-01 1.000000000000000000e+00 7.000000000000000000e+00
+```
+The first two floats are the admixture proportion estimates, while the latter two correpsond to admixture time estimates.
 
 
 
