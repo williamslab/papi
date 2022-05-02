@@ -3,7 +3,8 @@
 t1=$1
 t2=$2
 MAP_FILE=$3 #mapfile for ped-sim run 
-OUT_DIR=$4 #specify output directory for all files
+PANEL_DIR=$4
+OUT_DIR=$5 #specify output directory for all files
 
 ##### ped-sim run #######
 DEF_FILE=${t1}gens.def
@@ -33,7 +34,7 @@ done
 #WARNING - This step assumes that the user has eigenstrat format .snp files derived from the panel data (see README)
 for chr in {1..22} 
 do
-    python ./phys2mark_AdmixSimu.py -i ${OUT_DIR}/${t1}_${t2}gens_chr${chr}.asu.bp -s snpfile${chr}.txt
+    python ./phys2mark_AdmixSimu.py -i ${OUT_DIR}/${t1}_${t2}gens_chr${chr}.asu.bp -s ${PANEL_DIR}/YRIpanelfile_${chr}.snp
 done
 
 ####### Create splits ###############
